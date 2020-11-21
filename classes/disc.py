@@ -32,7 +32,7 @@ class Client(discord.Client):
                 content = splitted[1]            
             else:
                 content = content[5:]
-            if len(content) >= self.limit:
+            if len(content) > self.limit:
                 await message.channel.send(embed=self.message.limitError(self.limit))
                 return
             ascii_art = self.doArt(content)
