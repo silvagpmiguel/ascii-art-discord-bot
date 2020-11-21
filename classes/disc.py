@@ -14,30 +14,29 @@ class Client(discord.Client):
 
     async def on_message(self, message):
         content = message.content
-        if not content.startswith('!asc '):
-            return
-        if content == '!asc':
-            await message.channel.send(embed=self.message.help())
-            return
-        if content[5:7] == '-l':
-            await message.channel.send(embed=self.message.listFonts(self.ascii.getAvailableFontsToString()))
-            return
-        elif content[5:7] == '-f':
-            content = content[8:]
-            splitted = content.split(' ')
-            font = splitted[0] + ".json"
-            if font not in self.fonts:
-                await message.channel.send(embed=self.message.unavailableFontError(splitted[0]))
+        if content.startswith('!asc '):
+            if content[5:7] == '-h':
+                await message.channel.send(embed=self.message.help())
                 return
-            self.ascii.setFont(font)
-            content = splitted[1]            
-        else:
-            content = content[5:]
-        if len(content) >= self.limit:
-            await message.channel.send(embed=self.message.limitError(self.limit))
-            return
-        ascii_art = self.doArt(content)
-        await message.channel.send(ascii_art)
+            elif content[5:7] == '-l':
+                await message.channel.send(embed=self.message.listFonts(self.ascii.getAvailableFontsToString()))
+                return
+            elif content[5:7] == '-f':
+                content = content[8:]
+                splitted = content.split(' ')
+                font = splitted[0] + ".json"
+                if font not in self.fonts:
+                    await message.channel.send(embed=self.message.unavailableFontError(splitted[0]))
+                    return
+                self.ascii.setFont(font)
+                content = splitted[1]            
+            else:
+                content = content[5:]
+            if len(content) >= self.limit:
+                await message.channel.send(embed=self.message.limitError(self.limit))
+                return
+            ascii_art = self.doArt(content)
+            await message.channel.send(ascii_art)
 
     def doArt(self, content):
         x = 0

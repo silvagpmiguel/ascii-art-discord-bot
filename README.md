@@ -5,7 +5,7 @@ Discord bot used to print ascii art.
 Just [invite the bot](https://discord.com/oauth2/authorize?client_id=779439176411381800&permissions=1074265152&scope=bot) to your **Discord** server and start using the commands.
 
 ## Available Commands
-- `!asc` - Print help
+- `!asc -h` - Print help
 - `!asc -l` - Print available fonts
 - `!asc -f [font] [input]` - Print ascii art with font
 - `!asc [input]` - Print ascii art
