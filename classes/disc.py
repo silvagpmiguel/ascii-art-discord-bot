@@ -58,7 +58,7 @@ class Client(discord.Client):
                 elif lower_letter == 'ç':
                     lower_letter = 'c'
                 if lower_letter in available_letters:
-                    ascii_art += self.ascii.getLetter(lower_letter)[x] + " "
+                    ascii_art += self.ascii.getLetter(lower_letter)[x]
                 else:
                     ascii_art += "  "
             ascii_art += "\n"
