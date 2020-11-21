@@ -49,7 +49,7 @@ class Client(discord.Client):
                     lower_letter = 'a'
                 elif lower_letter == 'ê' or lower_letter == 'é' or lower_letter == 'è':
                     lower_letter = 'e'
-                elif lower_letter == 'í':
+                elif lower_letter == 'í' or lower_letter == 'ì':
                     lower_letter = 'i'
                 elif lower_letter == 'õ' or lower_letter == 'ó' or lower_letter == 'ò':
                     lower_letter = 'o'
