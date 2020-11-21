@@ -20,4 +20,4 @@ Just [invite the bot](https://discord.com/oauth2/authorize?client_id=77943917641
 ### Run Program
 - Clone Repository
 - Set up [YOUR_BOT_TOKEN](https://discord.com/developers/applications)
-- Run the program `python3.6 <YOUR_BOT_TOKEN>`
+- Run the program `python3.6 main.py <YOUR_BOT_TOKEN>`
