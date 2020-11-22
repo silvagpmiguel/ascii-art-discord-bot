@@ -5,7 +5,7 @@ from classes.message import Message
 
 class Client(discord.Client):
     async def on_ready(self):
-        print('Logged on as', self.user)
+        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='!asc -h'))
         self.ascii = Ascii()
         self.message = Message()
         self.depth = self.ascii.getDepth()
