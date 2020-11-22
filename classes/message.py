@@ -11,7 +11,7 @@ class Message:
         return discord.Embed(
             title = 'Ascii: Available Fonts',
             description = fonts,
-            color = discord.Color.red()
+            color = discord.Color.blue()
         )
     def limitError(self, limit):
         return discord.Embed(
