@@ -69,7 +69,7 @@ class Client(discord.Client):
                     lower_letter = 'c'
                 if lower_letter in available_letters:
                     line += self.ascii.getLetter(lower_letter)[x]
-                elif lower_letter == ' ' or lower_letter == '\n':
+                elif lower_letter == ' ' or lower_letter == '\n' or lower_letter == '\t':
                     line += ' '
             if self.checkLineSize(line):
                 logging.error(
