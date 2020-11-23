@@ -25,11 +25,11 @@ class Client(discord.Client):
                 '%s, %s, %s: %s',
                 message.guild.name, message.channel.name, message.author.name, content
             )
-            if content[5:7] == '-h':
+            if content[5:7] == '-h' and len(content) == 7:
                 logging.info('Help Message')
                 await message.channel.send(embed=self.message.help())
                 return
-            elif content[5:7] == '-l':
+            elif content[5:7] == '-l' and len(content) == 7:
                 logging.info('List Fonts')
                 await message.channel.send(embed=self.message.listFonts(self.ascii.getAvailableFontsToString()))
                 return
