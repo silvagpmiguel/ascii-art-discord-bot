@@ -3,14 +3,14 @@ import discord
 from classes.ascii import Ascii
 from classes.message import Message
 
+
 class Client(discord.Client):
     async def on_ready(self):
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='!asc -h'))
         self.ascii = Ascii()
         self.message = Message()
-        self.depth = self.ascii.getDepth()
-        self.limit = self.ascii.getLimit()
         self.fonts = self.ascii.getAvailableFonts()
+        self.discordLineLength = 122
 
     async def on_message(self, message):
         content = message.content
@@ -29,20 +29,17 @@ class Client(discord.Client):
                     await message.channel.send(embed=self.message.unavailableFontError(splitted[0]))
                     return
                 self.ascii.setFont(font)
-                content = splitted[1]            
+                content = splitted[1]
             else:
                 content = content[5:]
-            if len(content) > self.limit:
-                await message.channel.send(embed=self.message.limitError(self.limit))
-                return
-            ascii_art = self.doArt(content)
-            await message.channel.send(ascii_art)
+            await self.doArt(content, message.channel)
 
-    def doArt(self, content):
+    async def doArt(self, content, channel):
         x = 0
         ascii_art = "```\n"
         available_letters = self.ascii.getAvailableLetters()
-        while x < self.depth:
+        while x < self.ascii.getDepth():
+            line = ""
             for letter in content:
                 lower_letter = letter.lower()
                 if lower_letter == 'ã' or lower_letter == 'á' or lower_letter == 'à':
@@ -58,10 +55,16 @@ class Client(discord.Client):
                 elif lower_letter == 'ç':
                     lower_letter = 'c'
                 if lower_letter in available_letters:
-                    ascii_art += self.ascii.getLetter(lower_letter)[x]
+                    line += self.ascii.getLetter(lower_letter)[x]
                 else:
-                    ascii_art += "  "
-            ascii_art += "\n"
-            x+=1
+                    line += "  "
+                if self.checkLineSize(line):
+                    await channel.send(embed=self.message.limitError())
+                    return
+            ascii_art += line+"\n"
+            x += 1
         ascii_art += "```"
-        return ascii_art
+        await channel.send(ascii_art)
+
+    def checkLineSize(self, line):
+        return len(line) > self.discordLineLength
