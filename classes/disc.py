@@ -1,7 +1,7 @@
 import discord
-
-from classes.ascii import Ascii
+import logging
 from classes.message import Message
+from classes.ascii import Ascii
 
 
 class Client(discord.Client):
@@ -11,21 +11,35 @@ class Client(discord.Client):
         self.message = Message()
         self.fonts = self.ascii.getAvailableFonts()
         self.discordLineLength = 122
+        logging.basicConfig(
+            format='%(asctime)s, %(levelname)s -> %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p', filename='running.log',
+            filemode='w', level=logging.INFO
+        )
 
     async def on_message(self, message):
         content = message.content
         if content.startswith('!asc '):
+            logging.info(
+                f'{message.guild.name}, {message.channel.name}, {message.author.name}: "{content}"'
+            )
             if content[5:7] == '-h':
+                logging.info('Help Message')
                 await message.channel.send(embed=self.message.help())
                 return
             elif content[5:7] == '-l':
+                logging.info('List Fonts')
                 await message.channel.send(embed=self.message.listFonts(self.ascii.getAvailableFontsToString()))
                 return
             elif content[5:7] == '-f':
                 content = content[8:]
-                splitted = content.split(' ')
+                splitted = content.split(' ', 1)
+                if splitted[0] == content:
+                    return
                 font = splitted[0] + ".json"
                 if font not in self.fonts:
+                    logging.error(
+                        f'Font Error: {font} is not available'
+                    )
                     await message.channel.send(embed=self.message.unavailableFontError(splitted[0]))
                     return
                 self.ascii.setFont(font)
@@ -59,6 +73,9 @@ class Client(discord.Client):
                 else:
                     line += "  "
                 if self.checkLineSize(line):
+                    logging.error(
+                        f'Error: Max line size reached ({line} > {self.discordLineLength})'
+                    )
                     await channel.send(embed=self.message.limitError())
                     return
             ascii_art += line+"\n"
