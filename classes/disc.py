@@ -11,16 +11,19 @@ class Client(discord.Client):
         self.message = Message()
         self.fonts = self.ascii.getAvailableFonts()
         self.discordLineLength = 122
+        logger = logging.getLogger('discord')
+        logger.setLevel(logging.WARNING)
         logging.basicConfig(
             format='%(asctime)s, %(levelname)s -> %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p', filename='running.log',
-            filemode='w', level=logging.INFO
+            filemode='a', level=logging.INFO
         )
 
     async def on_message(self, message):
         content = message.content
         if content.startswith('!asc '):
             logging.info(
-                f'{message.guild.name}, {message.channel.name}, {message.author.name}: {content}'
+                '%s, %s, %s: %s',
+                message.guild.name, message.channel.name, message.author.name, content
             )
             if content[5:7] == '-h':
                 logging.info('Help Message')
@@ -37,9 +40,7 @@ class Client(discord.Client):
                     return
                 font = splitted[0] + ".json"
                 if font not in self.fonts:
-                    logging.error(
-                        f'Font Error: {font} is not available'
-                    )
+                    logging.error('Font Error: %s is not available', font)
                     await message.channel.send(embed=self.message.unavailableFontError(splitted[0]))
                     return
                 self.ascii.setFont(font)
@@ -72,12 +73,13 @@ class Client(discord.Client):
                     line += self.ascii.getLetter(lower_letter)[x]
                 else:
                     line += "  "
-                if self.checkLineSize(line):
-                    logging.error(
-                        f'Error: Max line size reached ({len(line)} > {self.discordLineLength})'
-                    )
-                    await channel.send(embed=self.message.limitError())
-                    return
+            if self.checkLineSize(line):
+                logging.error(
+                    'Error: Max line size reached (%d > %d)',
+                    len(line), self.discordLineLength
+                )
+                await channel.send(embed=self.message.limitError())
+                return
             ascii_art += line+"\n"
             x += 1
         ascii_art += "```"
