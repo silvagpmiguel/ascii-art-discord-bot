@@ -5,7 +5,7 @@ class Message:
     def help(self):
         return discord.Embed(
             title='Ascii: Help Me',
-            description='**Usage**\n`!asc <command> [arguments]`\n\n**Available Commands**\n- `!asc` - Print help\n- `!asc -l` - Print available fonts\n- `!asc -f [font] [input]` - Print ascii art with font\n- `!asc [input]` - Print ascii art',
+            description='**Usage**\n`!asc <command> [arguments]`\n\n**Available Commands**\n- `!asc -h` - Print help\n- `!asc -l` - Print available fonts\n- `!asc -f [font] [input]` - Print ascii art with font\n- `!asc [input]` - Print ascii art',
             color=discord.Color.blue()
         )
 
