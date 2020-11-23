@@ -74,7 +74,7 @@ class Client(discord.Client):
                     line += "  "
                 if self.checkLineSize(line):
                     logging.error(
-                        f'Error: Max line size reached ({line} > {self.discordLineLength})'
+                        f'Error: Max line size reached ({len(line)} > {self.discordLineLength})'
                     )
                     await channel.send(embed=self.message.limitError())
                     return
