@@ -76,7 +76,7 @@ class Client(discord.Client):
                     'Error: Max line size reached (%d > %d)',
                     len(line), self.discordLineLength
                 )
-                await channel.send(embed=self.message.limitError())
+                await channel.send(embed=self.message.limitError(len(line), self.discordLineLength))
                 return
             ascii_art += line+"\n"
             x += 1

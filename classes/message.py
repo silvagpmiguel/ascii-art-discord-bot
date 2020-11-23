@@ -16,10 +16,10 @@ class Message:
             color=discord.Color.blue()
         )
 
-    def limitError(self):
+    def limitError(self, size, discordSize):
         return discord.Embed(
             title='Ascii: Limit Error :(',
-            description=f'Sorry, too much characters!',
+            description=f'Sorry, this text is **larger** than the maximum line size of the **discord**.\nThe line supports **{discordSize}** characters, and the text you typed is **{size}**.',
             color=discord.Color.red()
         )
 
