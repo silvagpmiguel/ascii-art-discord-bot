@@ -20,7 +20,7 @@ class Client(discord.Client):
         content = message.content
         if content.startswith('!asc '):
             logging.info(
-                f'{message.guild.name}, {message.channel.name}, {message.author.name}: "{content}"'
+                f'{message.guild.name}, {message.channel.name}, {message.author.name}: {content}'
             )
             if content[5:7] == '-h':
                 logging.info('Help Message')
