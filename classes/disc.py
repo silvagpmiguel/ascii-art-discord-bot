@@ -10,7 +10,7 @@ class Client(discord.Client):
         self.ascii = Ascii()
         self.message = Message()
         self.fonts = self.ascii.getAvailableFonts()
-        self.discordLineLength = 122
+        self.discordLineLength = 121
         logger = logging.getLogger('discord')
         logger.setLevel(logging.WARNING)
         logging.basicConfig(
