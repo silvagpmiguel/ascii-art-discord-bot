@@ -33,11 +33,9 @@ class Client(discord.Client):
                 logging.info('List Fonts')
                 await message.channel.send(embed=self.message.listFonts(self.ascii.getAvailableFontsToString()))
                 return
-            elif content[5:7] == '-f':
+            elif content[5:8] == '-f ':
                 content = content[8:]
                 splitted = content.split(' ', 1)
-                if splitted[0] == content:
-                    return
                 font = splitted[0] + ".json"
                 if font not in self.fonts:
                     logging.error('Font Error: %s is not available', font)
